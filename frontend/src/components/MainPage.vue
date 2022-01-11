@@ -1,13 +1,15 @@
 <template>
-$END$
+  <ContainerMain></ContainerMain>
 </template>
 
 <script>
+import ContainerMain from './ContainerMain'
+
 export default {
-name: "MainPage"
+  name: 'MainPage',
+  components: { ContainerMain }
 }
 </script>
 
-<style scoped>
-
+<style>
 </style>
