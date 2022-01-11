@@ -54,8 +54,6 @@
 <script>
   export default {
     name: 'login',
-    data: () => ({
-    }),
     methods: {
       onLogin () {
         console.log('onLogin')
