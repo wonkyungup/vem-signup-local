@@ -3,6 +3,9 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const app = express()
+const db = require('./Model/db')
+
+db()
 
 app.use(logger('dev'))
 app.use(express.json())

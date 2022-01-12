@@ -1,7 +1,6 @@
 <template>
   <v-app id="inspire">
     <v-main class="blue-grey lighten-4">
-      <!-- Signup Component -->
       <v-container style="max-width: 450px" fill-height>
         <v-layout align-center row wrap>
           <v-flex xs12>
@@ -64,20 +63,33 @@ export default {
   methods: {
     async onCreateAccount() {
       if (this.email.length < 1 || this.password.length < 1 || this.profileName.length < 1) {
-        alert('Signup Error')
+        alert('Signup Form Input')
         return
       }
 
       if (this.password !== this.confirm) {
-        alert('check Password')
+        alert('Password Is Wrong')
         this.password = ''
         this.confirm = ''
         return
       }
 
       const res = await this.$http.post('/login/signup', { email: this.email, profileName: this.profileName, password: this.password })
-      if (res.data === 'createAccount') {
-        this.$router.push('/login')
+
+      if (res.data) {
+        const _msg = res.data.msg
+        switch (_msg) {
+          case 'signup':
+            alert(_msg)
+            this.$router.push('/login')
+            break
+          case 'ChangeEmail':
+          case 'ChangeProfileName':
+            alert(_msg)
+            break
+          default:
+            break
+        }
       }
     }
   }

@@ -20,6 +20,11 @@ export const router = new Router({
             path: '/login/signup',
             name: 'signup',
             component: () => import('@/components/user/signup')
+        },
+        {
+            path: '/mypage',
+            name: 'mypage',
+            component: () => import('@/components/user/mypage')
         }
     ]
 })
