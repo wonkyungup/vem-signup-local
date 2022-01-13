@@ -4,8 +4,9 @@ const url = 'mongodb://localhost:27017/members'
 module.exports = () => {
     mongoose.connect(url, (err, db) => {
         if (err) {
-            console.log('signup db connect failed')
+            console.log('mongoDB connect failed')
         } else {
+            console.log('mongoDB connected')
             mongoose.model('members', new mongoose.Schema({
                 seq: Number,
                 email: String,
