@@ -52,6 +52,8 @@
 </template>
 
 <script>
+  const STR_LOGIN_ERROR = 'login_error'
+
   export default {
     name: 'login',
     data: () => ({
@@ -64,22 +66,21 @@
           alert('email & password Input')
           return
         }
-        const res = await this.$http.post('/login', { email: this.email, password: this.password })
-        if (res.data) {
-          const _config = res.data.config
-          const _msg = res.data.msg
 
-          switch (_msg) {
-            case 'login':
+        const res = await this.$http.post('/login', { email: this.email, password: this.password })
+        const data = res.data
+        if (data) {
+          switch (data.index) {
+            case 0:
+              alert(`Your email or password is incorrect - ${STR_LOGIN_ERROR}`)
+              this.password = ''
+              break
+            case 1:
               this.$router.push({
                 path: '/mypage',
                 name: 'mypage',
-                query: { email: _config.email, profileName: _config.profileName, password: _config.password }
+                query: data.content[0]
               })
-              break
-            case 'membershipRequired':
-            case 'CheckPassword':
-              alert(_msg)
               break
             default:
               break

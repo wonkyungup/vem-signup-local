@@ -11,20 +11,20 @@
                   <v-text-field
                       label="Email"
                       prepend-inner-icon="mdi-email"
-                      v-model="$route.query.email"
+                      v-model="email"
                       disabled
                   />
                   <v-text-field
                       label="profile Name"
                       prepend-inner-icon="mdi-account"
-                      v-model="$route.query.profileName"
+                      v-model="profileName"
                       disabled
                   />
                   <v-text-field
                       prepend-inner-icon="mdi-lock"
                       type="password"
                       label="Password"
-                      v-model="$route.query.password"
+                      v-model="password"
                       disabled
                   />
                   <v-btn
@@ -51,6 +51,17 @@
 <script>
 export default {
   name: 'mypage',
+  data: () => ({
+    email: '',
+    profileName: '',
+    password: ''
+  }),
+  mounted() {
+    const query = this.$route.query
+    this.email = query.email
+    this.profileName = query.profileName
+    this.password = query.password
+  },
   methods: {
     onLogout () {
       this.$router.push('/login')

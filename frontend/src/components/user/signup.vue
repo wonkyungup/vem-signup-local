@@ -52,6 +52,9 @@
 </template>
 
 <script>
+const STR_SIGNUP_EMAIL_DUPLICATE = 'signup_email_duplicate'
+const STR_SIGNUP_PROFILENAME_DUPLICATE = 'signup_profileName_duplicate'
+
 export default {
   name: 'signup',
   data: () => ({
@@ -75,17 +78,24 @@ export default {
       }
 
       const res = await this.$http.post('/login/signup', { email: this.email, profileName: this.profileName, password: this.password })
-
       if (res.data) {
-        const _msg = res.data.msg
-        switch (_msg) {
-          case 'signup':
-            alert(_msg)
-            this.$router.push('/login')
+        const _index = res.data.index
+        switch (_index) {
+          case 0:
+            switch (res.data.content) {
+              case STR_SIGNUP_EMAIL_DUPLICATE:
+                alert('You already have an email in use.')
+                this.email = ''
+                break
+              case STR_SIGNUP_PROFILENAME_DUPLICATE:
+                alert('There is already a profile_name in use.')
+                this.profileName = ''
+                break
+            }
             break
-          case 'ChangeEmail':
-          case 'ChangeProfileName':
-            alert(_msg)
+          case 1: // signup
+            alert('You are registered')
+            this.$router.push('/login')
             break
           default:
             break

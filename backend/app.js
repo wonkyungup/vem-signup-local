@@ -1,11 +1,12 @@
+import { dbInitialize } from './Model/db'
+
 const express = require('express')
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const app = express()
-const initializeDB = require('./Model/db')
 
-initializeDB()
+dbInitialize()
 
 app.use(logger('dev'))
 app.use(express.json())
