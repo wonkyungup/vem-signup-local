@@ -1,8 +1,6 @@
-import {
-    dbCheckEmail,
-    dbCheckProfileName,
-    dbInsertAccount
-} from '../Model/db'
+import mongodController from '../Model/db'
+import { encrypt } from '../assets/security'
+
 const express = require('express')
 const router = express.Router()
 
@@ -13,18 +11,19 @@ const STR_SIGNUP_PROFILENAME_DUPLICATE = 'signup_profileName_duplicate'
 router.post('/', async (req, res, next) => {
     const email = req.body.email
     const profileName = req.body.profileName
-    const password = req.body.password
+    const password = encrypt(req.body.password)
 
     // mongoDB
-    const dbEmail = await dbCheckEmail(email)
-    const dbProfileName = await dbCheckProfileName(profileName)
+    const members = new mongodController()
+    const dbEmail = await members.dbCheckEmailSync(email)
+    const dbProfileName = await members.dbCheckProfileNameSync(profileName)
 
-    if (dbEmail.length > 0) { // Duplicate mail detection
+    if (dbEmail.length > 0) {
         res.send({ index: 0, content: STR_SIGNUP_EMAIL_DUPLICATE })
-    } else if (dbProfileName.length > 0) { // Duplicate profile name detection
+    } else if (dbProfileName.length > 0) {
         res.send({ index: 0, content: STR_SIGNUP_PROFILENAME_DUPLICATE })
-    } else { // Create membership
-        await dbInsertAccount(email, profileName, password)
+    } else {
+        members.dbInsertAccount(email, profileName, password)
         res.send({ index: 1, content: null })
     }
 })
