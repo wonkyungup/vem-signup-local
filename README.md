@@ -23,7 +23,7 @@
 2.npm install & npm run start
 ```
 
-3. Please try to connect
+3. Please try to connect1
 ```
 1.localhost:3000 connect
 ```
